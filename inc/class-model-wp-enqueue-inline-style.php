@@ -39,10 +39,6 @@ if(!class_exists('Model_WP_Enqueue_Inline_Style')){
         $this->register_inline_style($handle, $src, $deps, $ver, $media);
       }
 
-      if(!in_array($handle, $this->to_do)){
-        $this->to_do[] = $handle;
-      }
-
       $this->add_to_queue($handle);
     }
 
@@ -101,7 +97,7 @@ if(!class_exists('Model_WP_Enqueue_Inline_Style')){
       if(!array_key_exists($this->registered[$handle]['media'], $this->queue)){
         $this->queue[$this->registered[$handle]['media']] = array($handle);
       }else{
-        if(!in_array($script, $this->queue[$this->registered[$handle]['media']])){
+        if(!in_array($handle, $this->queue[$this->registered[$handle]['media']])){
           $this->queue[$this->registered[$handle]['media']][] = $handle;
         }
       }
