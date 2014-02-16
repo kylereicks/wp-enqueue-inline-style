@@ -8,6 +8,8 @@ if(!class_exists('Model_WP_Enqueue_Inline_Style')){
 
     public function register_inline_style($handle, $src = '', $deps = array(), $ver = false, $media = 'all'){
       global $wp_styles;
+      wp_register_style($handle, $src, $deps, $ver, $media);
+
       if(empty($src)){
         if(array_key_exists($handle, $wp_styles->registered)){
           $this->registered[$handle] = array(
@@ -29,7 +31,6 @@ if(!class_exists('Model_WP_Enqueue_Inline_Style')){
             'ver' => $ver,
             'media' => $media
           );
-          wp_register_style($handle, $src, $deps, $ver, $media);
         }
       }
     }
@@ -44,8 +45,9 @@ if(!class_exists('Model_WP_Enqueue_Inline_Style')){
 
     public function all_deps(){
       global $wp_styles;
+      $wp_styles->all_deps($wp_styles->queue);
 
-      foreach($wp_styles->queue as $style){
+      foreach($wp_styles->to_do as $style){
         if(array_key_exists($style, $this->registered)){
           $this->add_to_queue($style);
         }
